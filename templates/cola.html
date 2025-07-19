@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entregar Tarjetas de Apoyo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .btn-custom {
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 0.7rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .btn-agregar {
+            background: linear-gradient(135deg, #e6a4ad 0%, #e6a4ad 100%);
+            color: white;
+        }
+        .btn-atender {
+            background: linear-gradient(135deg, #f093fb 0%, #e6a4ad 100%);
+            color: white;
+        }
+        .btn-volver {
+            background: linear-gradient(135deg, #74b1eb 0%, #74b1eb (209 36% 27%) 100%);
+            color: white;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #a347ac 0%, #a347ac 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <div class="container text-center">
+            <h1 class="mb-3">
+                <i class="fas fa-id-card"></i> Entregar Tarjetas de Apoyo
+            </h1>
+            <p class="lead">Gestiona la cola de personas esperando su tarjeta de apoyo</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form method="post" action="/cola/agregar">
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Nombre de la Persona</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-custom btn-agregar">
+                                        <i class="fas fa-user-plus"></i> Agregar a la Cola
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form method="post" action="/cola/atender">
+                                    <button type="submit" class="btn btn-custom btn-atender" {% if cola_vacia %}disabled{% endif %}>
+                                        <i class="fas fa-user-check"></i> Atender Siguiente
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list"></i> Cola de Espera
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if cola %}
+                            <div class="list-group">
+                                {% for persona in cola %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary me-3">{{ loop.index }}</span>
+                                        <span class="flex-grow-1">{{ persona }}</span>
+                                        <span class="badge bg-secondary">Esperando</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-3x mb-3"></i>
+                                <p>No hay personas en la cola de espera</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-custom btn-volver">
+                        <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
